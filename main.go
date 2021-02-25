@@ -58,7 +58,8 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	// Put data into instance
 	bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
 		AddSeries("Category A", generateBarItems()).
-		AddSeries("Category B", generateBarItems())
+		AddSeries("Category B", generateBarItems()).
+		AddSeries("Category C", generateBarItems())
 	// Where the magic happens
 	f, _ := os.Create("bar.html")
 	bar.Render(f)
