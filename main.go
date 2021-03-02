@@ -8,7 +8,6 @@ import (
 	"math/rand"
 	"net"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -224,10 +223,10 @@ func getWeeklyAxis(data CoronaDailyData) []string {
 
 func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 
-	// if r.Method != "GET" {
-	// 	fmt.Println("Not GET!")
-	// 	return
-	// }
+	if r.Method != "GET" {
+		fmt.Println("Not GET!")
+		return
+	}
 
 	fmt.Println("weeklyHandler")
 	// if the last creation of the html is over 2 min
@@ -294,12 +293,14 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 		AddSeries("3 weeks ago", generateWeeklyItems(data[:7])).
 		AddSeries("2 weeks ago", generateWeeklyItems(data[7:14])).
 		AddSeries("1 weeks ago", generateWeeklyItems(data[14:]))
-	// Where the magic happens
-	f, _ := os.Create("bar.html")
-	bar.Render(f)
 
-	htmlFile := "./bar.html"
-	http.ServeFile(w, r, htmlFile)
+		// Where the magic happens
+	// f, _ := os.Create("bar.html")
+	// bar.Render(f)
+
+	// htmlFile := "./bar.html"
+	// http.ServeFile(w, r, htmlFile)
+	bar.Render(w)
 }
 
 const port = ":8081"
@@ -310,7 +311,7 @@ var serviceKey string
 func main() {
 
 	fmt.Println("service Key: ", serviceKey)
-	// http.HandleFunc("/weekly", weeklyHandler)
-	http.HandleFunc("/", weeklyHandler)
+	http.HandleFunc("/weekly", weeklyHandler)
+	// http.HandleFunc("/", weeklyHandler)
 	http.ListenAndServe(port, nil)
 }
