@@ -41,6 +41,14 @@ func generateWeeklyItems(data []CoronaDailyData) []opts.BarData {
 	return items
 }
 
+func generateWeeklyLineItems(data []CoronaDailyData) []opts.LineData {
+	items := make([]opts.LineData, 0)
+	for i := 0; i < 7; i++ {
+		items = append(items, opts.LineData{Value: data[i].AddCount})
+	}
+	return items
+}
+
 // https://medium.com/@nate510/don-t-use-go-s-default-http-client-4804cb19f779
 var netTransport = &http.Transport{
 	Dial: (&net.Dialer{
@@ -280,11 +288,19 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 		charts.WithTitleOpts(opts.Title{
 			Title:    "Covid confirmed person data comparison",
 			Subtitle: "3 Weeks comparison of each weekday",
+			Left:     "5%",
 		}),
+		// charts.WithXAxisOpts(opts.XAxis{
+		// 	Name: "Confirmed person on each weekday",
+		// }),
+		// charts.WithYAxisOpts(opts.YAxis{
+		// 	Name: "Confirmed person number",
+		// }),
+
 		charts.WithLegendOpts(opts.Legend{
 			Show: true,
 			Left: "40%",
-			Top:  "5%",
+			Top:  "7%",
 		}),
 	)
 
@@ -294,22 +310,38 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 
 	// bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
 	bar.SetXAxis(xAxisString).
-		AddSeries("3 weeks ago", generateWeeklyItems(data[:7])).
-		AddSeries("2 weeks ago", generateWeeklyItems(data[7:14])).
-		AddSeries("1 weeks ago", generateWeeklyItems(data[14:])).
+		AddSeries("3rd weeks ago", generateWeeklyItems(data[:7])).
+		AddSeries("2nd weeks ago", generateWeeklyItems(data[7:14])).
+		AddSeries("1st weeks ago", generateWeeklyItems(data[14:])).
 		SetSeriesOptions(charts.WithLabelOpts(opts.Label{
 			Show:     true,
 			Position: "top",
 		}),
 		)
-
-		// Where the magic happens
+	// bar.Overlap(lineBase(data))
+	// Where the magic happens
 	// f, _ := os.Create("bar.html")
 	// bar.Render(f)
 
 	// htmlFile := "./bar.html"
 	// http.ServeFile(w, r, htmlFile)
 	bar.Render(w)
+}
+
+func lineBase(data []CoronaDailyData) *charts.Line {
+	line := charts.NewLine()
+
+	// bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
+	line.AddSeries("3 weeks ago", generateWeeklyLineItems(data[:7])).
+		AddSeries("2 weeks ago", generateWeeklyLineItems(data[7:14])).
+		AddSeries("1 weeks ago", generateWeeklyLineItems(data[14:])).
+		SetSeriesOptions(charts.WithLabelOpts(opts.Label{
+			Show:     true,
+			Position: "top",
+		}),
+		)
+
+	return line
 }
 
 const port = ":8081"
