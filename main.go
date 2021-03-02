@@ -37,12 +37,12 @@ func generateBarItems() []opts.BarData {
 // https://medium.com/@nate510/don-t-use-go-s-default-http-client-4804cb19f779
 var netTransport = &http.Transport{
 	Dial: (&net.Dialer{
-		Timeout: 5 * time.Second,
+		Timeout: 15 * time.Second,
 	}).Dial,
-	TLSHandshakeTimeout: 5 * time.Second,
+	TLSHandshakeTimeout: 15 * time.Second,
 }
 var netClient = &http.Client{
-	Timeout:   time.Second * 10,
+	Timeout:   time.Second * 20,
 	Transport: netTransport,
 }
 
@@ -225,7 +225,15 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 		data = append(data, d)
 	}
 
-	// fmt.Printf("data: %+v\n", data)
+	// reverse and get exact 21 data
+	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
+		data[i], data[j] = data[j], data[i]
+	}
+
+	cutCount := len(data) - 21
+	data = data[cutCount:]
+	fmt.Println("len data: ", len(data))
+	fmt.Printf("data: %+v\n", data)
 
 	// create a new bar instance
 	bar := charts.NewBar()
