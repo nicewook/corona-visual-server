@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	_ "embed"
@@ -52,6 +53,8 @@ var netClient = &http.Client{
 	Timeout:   time.Second * 20,
 	Transport: netTransport,
 }
+
+var weekdays = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 
 const (
 	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
@@ -199,6 +202,26 @@ func getAddCount(today Item, yday Item) string {
 	return strconv.Itoa(tCareCnt + tClearCnt + tDeathCnt - yCareCnt - yClearCnt - yDeathCnt)
 }
 
+func getWeeklyAxis(data CoronaDailyData) []string {
+	t, err := time.Parse(dateFormat, data.Date)
+	if err != nil {
+		log.Println(err)
+		return weekdays
+	}
+	wDay := t.Weekday().String()
+	fmt.Println("weekday start: ", wDay)
+
+	var idx int
+	for i, d := range weekdays {
+		if strings.Contains(wDay, d) {
+			idx = i
+		}
+	}
+	result := append(weekdays[idx:], weekdays[:idx]...)
+	return result
+
+}
+
 func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("weeklyHandler")
 	// if the last creation of the html is over 2 min
@@ -257,9 +280,11 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	)
 
 	// Put data into instance
-	// []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+	xAxisString := getWeeklyAxis(data[0])
+	fmt.Println("xAxisString", xAxisString)
 
-	bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
+	// bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
+	bar.SetXAxis(xAxisString).
 		AddSeries("3 weeks ago", generateWeeklyItems(data[:7])).
 		AddSeries("2 weeks ago", generateWeeklyItems(data[7:14])).
 		AddSeries("1 weeks ago", generateWeeklyItems(data[14:]))
