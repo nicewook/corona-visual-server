@@ -33,6 +33,13 @@ func generateBarItems() []opts.BarData {
 	}
 	return items
 }
+func generateWeeklyItems(data []CoronaDailyData) []opts.BarData {
+	items := make([]opts.BarData, 0)
+	for i := 0; i < 7; i++ {
+		items = append(items, opts.BarData{Value: data[i].AddCount})
+	}
+	return items
+}
 
 // https://medium.com/@nate510/don-t-use-go-s-default-http-client-4804cb19f779
 var netTransport = &http.Transport{
@@ -63,6 +70,8 @@ func get3WeeksRange() (string, string) {
 func getCoronaData() ([]byte, error) {
 
 	// make request with query https://stackoverflow.com/a/30657518/6513756
+	fmt.Println("getCoronaData")
+
 	req, err := http.NewRequest("GET", openAPIURL, nil)
 	if err != nil {
 		return nil, err
@@ -76,7 +85,7 @@ func getCoronaData() ([]byte, error) {
 	q.Add("startCreateDt", startDate)
 	q.Add("endCreateDt", endDate)
 
-	fmt.Println("req.URL.String():", req.URL.String())
+	// fmt.Println("req.URL.String():", req.URL.String())
 	req.URL.RawQuery = q.Encode() // this make added query to attached
 	fmt.Println("req.URL.String():", req.URL.String())
 
@@ -95,6 +104,7 @@ func getCoronaData() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("getCoronaData success")
 
 	return bodyBytes, nil
 }
@@ -190,7 +200,7 @@ func getAddCount(today Item, yday Item) string {
 }
 
 func weeklyHandler(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println("weeklyHandler")
 	// if the last creation of the html is over 2 min
 	// - (24*60*60)/1000 = 86.4 seconds // 1000 request per day
 	b, err := getCoronaData()
@@ -247,10 +257,12 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	)
 
 	// Put data into instance
+	// []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+
 	bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
-		AddSeries("Category A", generateBarItems()).
-		AddSeries("Category B", generateBarItems()).
-		AddSeries("Category C", generateBarItems())
+		AddSeries("3 weeks ago", generateWeeklyItems(data[:7])).
+		AddSeries("2 weeks ago", generateWeeklyItems(data[7:14])).
+		AddSeries("1 weeks ago", generateWeeklyItems(data[14:]))
 	// Where the magic happens
 	f, _ := os.Create("bar.html")
 	bar.Render(f)
@@ -267,6 +279,6 @@ var serviceKey string
 func main() {
 
 	fmt.Println("service Key: ", serviceKey)
-	http.HandleFunc("/", weeklyHandler)
+	http.HandleFunc("/weekly", weeklyHandler)
 	http.ListenAndServe(port, nil)
 }
