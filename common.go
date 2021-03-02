@@ -1,7 +1,11 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/xml"
+	"net"
+	"net/http"
+	"time"
 )
 
 // types and constants and variables
@@ -65,3 +69,28 @@ type CoronaDailyData struct {
 	Date     string
 	AddCount string
 }
+
+// https://medium.com/@nate510/don-t-use-go-s-default-http-client-4804cb19f779
+var netTransport = &http.Transport{
+	Dial: (&net.Dialer{
+		Timeout: 15 * time.Second,
+	}).Dial,
+	TLSHandshakeTimeout: 15 * time.Second,
+}
+
+var netClient = &http.Client{
+	Timeout:   time.Second * 20,
+	Transport: netTransport,
+}
+
+var (
+	//go:embed service.key
+	serviceKey string
+	weekdays   = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+)
+
+const (
+	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
+	dateFormat = "20060102"
+	port       = ":8081"
+)

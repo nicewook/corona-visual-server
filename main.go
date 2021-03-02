@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
-	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -18,22 +16,7 @@ import (
 	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
-// func generateBarItems(data []int) []opts.BarData {
-// 	items := make([]opts.BarData, len(data))
-// 	for _, d := range data {
-// 		items = append(items, opts.BarData{Value: d})
-// 	}
-// 	return items
-// }
-
-func generateBarItems() []opts.BarData {
-	items := make([]opts.BarData, 0)
-	for i := 0; i < 7; i++ {
-		items = append(items, opts.BarData{Value: rand.Intn(300)})
-	}
-	return items
-}
-func generateWeeklyItems(data []CoronaDailyData) []opts.BarData {
+func generateWeeklyBarItems(data []CoronaDailyData) []opts.BarData {
 	items := make([]opts.BarData, 0)
 	for i := 0; i < 7; i++ {
 		items = append(items, opts.BarData{Value: data[i].AddCount})
@@ -41,35 +24,7 @@ func generateWeeklyItems(data []CoronaDailyData) []opts.BarData {
 	return items
 }
 
-func generateWeeklyLineItems(data []CoronaDailyData) []opts.LineData {
-	items := make([]opts.LineData, 0)
-	for i := 0; i < 7; i++ {
-		items = append(items, opts.LineData{Value: data[i].AddCount})
-	}
-	return items
-}
-
-// https://medium.com/@nate510/don-t-use-go-s-default-http-client-4804cb19f779
-var netTransport = &http.Transport{
-	Dial: (&net.Dialer{
-		Timeout: 15 * time.Second,
-	}).Dial,
-	TLSHandshakeTimeout: 15 * time.Second,
-}
-var netClient = &http.Client{
-	Timeout:   time.Second * 20,
-	Transport: netTransport,
-}
-
-var weekdays = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
-
-const (
-	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
-	dateFormat = "20060102"
-)
-
 func get3WeeksRange() (string, string) {
-
 	cTime := time.Now()
 	endDate := cTime.Format(dateFormat)
 	startDate := cTime.AddDate(0, 0, -23).Format(dateFormat) // I need 21 days, but I have 23 days just in case
@@ -78,7 +33,6 @@ func get3WeeksRange() (string, string) {
 }
 
 func getCoronaData() ([]byte, error) {
-
 	// make request with query https://stackoverflow.com/a/30657518/6513756
 	fmt.Println("getCoronaData")
 
@@ -95,9 +49,8 @@ func getCoronaData() ([]byte, error) {
 	q.Add("startCreateDt", startDate)
 	q.Add("endCreateDt", endDate)
 
+	req.URL.RawQuery = q.Encode() // this make added query to attached AND URL encoding
 	// fmt.Println("req.URL.String():", req.URL.String())
-	req.URL.RawQuery = q.Encode() // this make added query to attached
-	fmt.Println("req.URL.String():", req.URL.String())
 
 	resp, err := netClient.Do(req)
 	if err != nil {
@@ -149,6 +102,7 @@ func getAddCount(today Item, yday Item) string {
 	return strconv.Itoa(tCareCnt + tClearCnt + tDeathCnt - yCareCnt - yClearCnt - yDeathCnt)
 }
 
+// getWeeklyAxis finds the starting weekday of the xAxis
 func getWeeklyAxis(data CoronaDailyData) []string {
 	t, err := time.Parse(dateFormat, data.Date)
 	if err != nil {
@@ -166,23 +120,15 @@ func getWeeklyAxis(data CoronaDailyData) []string {
 	}
 	result := append(weekdays[idx:], weekdays[:idx]...)
 	return result
-
 }
 
 func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method != "GET" {
-		fmt.Println("Not GET!")
-		return
-	}
-
 	fmt.Println("weeklyHandler")
-	// if the last creation of the html is over 2 min
-	// - (24*60*60)/1000 = 86.4 seconds // 1000 request per day
 	b, err := getCoronaData()
 	if err != nil {
 		log.Println(err)
-		// need return code
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	// fmt.Println(string(b))
@@ -190,12 +136,12 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	var resp Response
 	if err := xml.Unmarshal(b, &resp); err != nil {
 		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	var data []CoronaDailyData
 	for i := range resp.Body.Items.Item {
-
 		if i == len(resp.Body.Items.Item)-1 {
 			continue
 		}
@@ -215,11 +161,8 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
 		data[i], data[j] = data[j], data[i]
 	}
-
-	cutCount := len(data) - 21
+	cutCount := len(data) - 21 // 3 weeks == 21 days
 	data = data[cutCount:]
-	fmt.Println("len data: ", len(data))
-	fmt.Printf("data: %+v\n", data)
 
 	// create a new bar instance
 	bar := charts.NewBar()
@@ -230,13 +173,6 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 			Subtitle: "3 Weeks comparison of each weekday",
 			Left:     "5%",
 		}),
-		// charts.WithXAxisOpts(opts.XAxis{
-		// 	Name: "Confirmed person on each weekday",
-		// }),
-		// charts.WithYAxisOpts(opts.YAxis{
-		// 	Name: "Confirmed person number",
-		// }),
-
 		charts.WithLegendOpts(opts.Legend{
 			Show: true,
 			Left: "40%",
@@ -244,55 +180,23 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 		}),
 	)
 
-	// Put data into instance
-	xAxisString := getWeeklyAxis(data[0])
-	fmt.Println("xAxisString", xAxisString)
-
-	// bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
-	bar.SetXAxis(xAxisString).
-		AddSeries("3rd weeks ago", generateWeeklyItems(data[:7])).
-		AddSeries("2nd weeks ago", generateWeeklyItems(data[7:14])).
-		AddSeries("1st weeks ago", generateWeeklyItems(data[14:])).
+	// Put data into the bar instance
+	bar.SetXAxis(getWeeklyAxis(data[0])).
+		AddSeries("3rd weeks ago", generateWeeklyBarItems(data[:7])).
+		AddSeries("2nd weeks ago", generateWeeklyBarItems(data[7:14])).
+		AddSeries("1st weeks ago", generateWeeklyBarItems(data[14:])).
 		SetSeriesOptions(charts.WithLabelOpts(opts.Label{
 			Show:     true,
 			Position: "top",
 		}),
 		)
-	// bar.Overlap(lineBase(data))
-	// Where the magic happens
-	// f, _ := os.Create("bar.html")
-	// bar.Render(f)
-
-	// htmlFile := "./bar.html"
-	// http.ServeFile(w, r, htmlFile)
 	bar.Render(w)
+	fmt.Println("--")
 }
-
-func lineBase(data []CoronaDailyData) *charts.Line {
-	line := charts.NewLine()
-
-	// bar.SetXAxis([]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}).
-	line.AddSeries("3 weeks ago", generateWeeklyLineItems(data[:7])).
-		AddSeries("2 weeks ago", generateWeeklyLineItems(data[7:14])).
-		AddSeries("1 weeks ago", generateWeeklyLineItems(data[14:])).
-		SetSeriesOptions(charts.WithLabelOpts(opts.Label{
-			Show:     true,
-			Position: "top",
-		}),
-		)
-
-	return line
-}
-
-const port = ":8081"
-
-//go:embed service.key
-var serviceKey string
 
 func main() {
 
-	fmt.Println("service Key: ", serviceKey)
 	http.HandleFunc("/weekly", weeklyHandler)
-	// http.HandleFunc("/", weeklyHandler)
 	http.ListenAndServe(port, nil)
+	// http.HandleFunc("/", weeklyHandler)
 }
