@@ -223,6 +223,12 @@ func getWeeklyAxis(data CoronaDailyData) []string {
 }
 
 func weeklyHandler(w http.ResponseWriter, r *http.Request) {
+
+	// if r.Method != "GET" {
+	// 	fmt.Println("Not GET!")
+	// 	return
+	// }
+
 	fmt.Println("weeklyHandler")
 	// if the last creation of the html is over 2 min
 	// - (24*60*60)/1000 = 86.4 seconds // 1000 request per day
@@ -304,6 +310,7 @@ var serviceKey string
 func main() {
 
 	fmt.Println("service Key: ", serviceKey)
-	http.HandleFunc("/weekly", weeklyHandler)
+	// http.HandleFunc("/weekly", weeklyHandler)
+	http.HandleFunc("/", weeklyHandler)
 	http.ListenAndServe(port, nil)
 }
