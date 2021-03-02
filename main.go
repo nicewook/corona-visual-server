@@ -119,66 +119,6 @@ func getCoronaData() ([]byte, error) {
 	return bodyBytes, nil
 }
 
-// research.swtch.com
-type Response struct {
-	XMLName xml.Name `xml:"response"`
-	Text    string   `xml:",chardata"`
-	Header  struct {
-		Text       string `xml:",chardata"`
-		ResultCode string `xml:"resultCode"`
-		ResultMsg  string `xml:"resultMsg"`
-	} `xml:"header"`
-	Body struct {
-		Text  string `xml:",chardata"`
-		Items struct {
-			Text string `xml:",chardata"`
-			Item []struct {
-				Text           string `xml:",chardata"`
-				AccDefRate     string `xml:"accDefRate"`
-				AccExamCnt     string `xml:"accExamCnt"`
-				AccExamCompCnt string `xml:"accExamCompCnt"`
-				CareCnt        string `xml:"careCnt"`
-				ClearCnt       string `xml:"clearCnt"`
-				CreateDt       string `xml:"createDt"`
-				DeathCnt       string `xml:"deathCnt"`
-				DecideCnt      string `xml:"decideCnt"`
-				ExamCnt        string `xml:"examCnt"`
-				ResutlNegCnt   string `xml:"resutlNegCnt"`
-				Seq            string `xml:"seq"`
-				StateDt        string `xml:"stateDt"`
-				StateTime      string `xml:"stateTime"`
-				UpdateDt       string `xml:"updateDt"`
-			} `xml:"item"`
-		} `xml:"items"`
-		NumOfRows  string `xml:"numOfRows"`
-		PageNo     string `xml:"pageNo"`
-		TotalCount string `xml:"totalCount"`
-	} `xml:"body"`
-}
-
-type Item struct {
-	Text           string `xml:",chardata"`
-	AccDefRate     string `xml:"accDefRate"`
-	AccExamCnt     string `xml:"accExamCnt"`
-	AccExamCompCnt string `xml:"accExamCompCnt"`
-	CareCnt        string `xml:"careCnt"`
-	ClearCnt       string `xml:"clearCnt"`
-	CreateDt       string `xml:"createDt"`
-	DeathCnt       string `xml:"deathCnt"`
-	DecideCnt      string `xml:"decideCnt"`
-	ExamCnt        string `xml:"examCnt"`
-	ResutlNegCnt   string `xml:"resutlNegCnt"`
-	Seq            string `xml:"seq"`
-	StateDt        string `xml:"stateDt"`
-	StateTime      string `xml:"stateTime"`
-	UpdateDt       string `xml:"updateDt"`
-}
-
-type CoronaDailyData struct {
-	Date     string
-	AddCount string
-}
-
 func getAddCount(today Item, yday Item) string {
 
 	tCareCnt, err := strconv.Atoi(today.CareCnt)
@@ -346,7 +286,7 @@ func lineBase(data []CoronaDailyData) *charts.Line {
 
 const port = ":8081"
 
-//go:embed coronaState.key
+//go:embed service.key
 var serviceKey string
 
 func main() {
