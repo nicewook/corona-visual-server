@@ -1,9 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"os"
+
+	_ "embed"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
@@ -73,7 +76,12 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 
 const port = ":8081"
 
+//go:embed coronaState.key
+var authKey string
+
 func main() {
+
+	fmt.Println("auth Key: ", authKey)
 	http.HandleFunc("/", weeklyHandler)
 	http.ListenAndServe(port, nil)
 }
