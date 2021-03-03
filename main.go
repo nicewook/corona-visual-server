@@ -196,9 +196,9 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	serviceKey = os.Getenv("SERVICE_KEY")
-	// if serviceKey == "" {
-	// 	log.Fatal("$SERVICE_KEY is not set")
-	// }
+	if serviceKey == "" {
+		log.Fatal("$SERVICE_KEY is not set")
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
