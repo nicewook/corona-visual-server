@@ -6,11 +6,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
-
-	_ "embed"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
@@ -196,7 +195,19 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	http.HandleFunc("/weekly", weeklyHandler)
-	http.ListenAndServe(port, nil)
-	// http.HandleFunc("/", weeklyHandler)
+	serviceKey = os.Getenv("SERVICE_KEY")
+	// if serviceKey == "" {
+	// 	log.Fatal("$SERVICE_KEY is not set")
+	// }
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8081"
+		log.Println("$PORT is not set, so port set to ", port)
+	}
+
+	// log.Printf("service key: %v, port %v\n", serviceKey, port)
+
+	http.HandleFunc("/", weeklyHandler)
+	http.ListenAndServe(":"+port, nil)
 }

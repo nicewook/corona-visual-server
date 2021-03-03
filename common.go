@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "embed"
 	"encoding/xml"
 	"net"
 	"net/http"
@@ -84,7 +83,6 @@ var netClient = &http.Client{
 }
 
 var (
-	//go:embed service.key
 	serviceKey string
 	weekdays   = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 )
