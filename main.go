@@ -174,7 +174,7 @@ func weeklyHandler(w http.ResponseWriter, r *http.Request) {
 		}),
 		charts.WithLegendOpts(opts.Legend{
 			Show: true,
-			Left: "40%",
+			Left: "45%",
 			Top:  "7%",
 		}),
 	)
