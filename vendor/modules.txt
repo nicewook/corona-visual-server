@@ -1,5 +1,4 @@
 # github.com/go-echarts/go-echarts/v2 v2.2.3
-## explicit
 github.com/go-echarts/go-echarts/v2/charts
 github.com/go-echarts/go-echarts/v2/datasets
 github.com/go-echarts/go-echarts/v2/opts

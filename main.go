@@ -29,7 +29,7 @@ func main() {
 	}
 
 	f := fetcher.New(&cfg, netClient)
-	h := handler.New(&f)
+	h := handler.New(&cfg, &f)
 
 	http.HandleFunc("/", h.GetWeeklyHandler)
 	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
