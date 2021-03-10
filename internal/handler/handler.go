@@ -6,13 +6,14 @@ import (
 	"corona-visual-server/internal/model"
 	"encoding/xml"
 	"fmt"
-	"github.com/go-echarts/go-echarts/v2/charts"
-	"github.com/go-echarts/go-echarts/v2/opts"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/go-echarts/go-echarts/v2/charts"
+	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
 var weekdays = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
@@ -24,9 +25,10 @@ type Handler struct {
 }
 
 // New returns the Handler.
-func New(fetcher *fetcher.Fetcher) Handler {
+func New(config *config.Config, fetcher *fetcher.Fetcher) Handler {
 	return Handler{
 		fetcher: fetcher,
+		config:  config,
 	}
 }
 
