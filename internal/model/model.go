@@ -60,6 +60,10 @@ type Item struct {
 
 // CoronaDailyData is a single data point.
 type CoronaDailyData struct {
-	Date     string
-	AddCount string
+	Date     string `xml:"date"`
+	AddCount string `xml:"addCount"`
+}
+
+type CoronaDailyDataResult struct {
+	Data []CoronaDailyData `xml:"data"`
 }
