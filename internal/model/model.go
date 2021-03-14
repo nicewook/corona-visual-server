@@ -15,23 +15,7 @@ type Response struct {
 		Text  string `xml:",chardata"`
 		Items struct {
 			Text string `xml:",chardata"`
-			Item []struct {
-				Text           string `xml:",chardata"`
-				AccDefRate     string `xml:"accDefRate"`
-				AccExamCnt     string `xml:"accExamCnt"`
-				AccExamCompCnt string `xml:"accExamCompCnt"`
-				CareCnt        string `xml:"careCnt"`
-				ClearCnt       string `xml:"clearCnt"`
-				CreateDt       string `xml:"createDt"`
-				DeathCnt       string `xml:"deathCnt"`
-				DecideCnt      string `xml:"decideCnt"`
-				ExamCnt        string `xml:"examCnt"`
-				ResutlNegCnt   string `xml:"resutlNegCnt"`
-				Seq            string `xml:"seq"`
-				StateDt        string `xml:"stateDt"`
-				StateTime      string `xml:"stateTime"`
-				UpdateDt       string `xml:"updateDt"`
-			} `xml:"item"`
+			Item []Item `xml:"item"`
 		} `xml:"items"`
 		NumOfRows  string `xml:"numOfRows"`
 		PageNo     string `xml:"pageNo"`
@@ -45,23 +29,24 @@ type Item struct {
 	AccDefRate     string `xml:"accDefRate"`
 	AccExamCnt     string `xml:"accExamCnt"`
 	AccExamCompCnt string `xml:"accExamCompCnt"`
-	CareCnt        string `xml:"careCnt"`
-	ClearCnt       string `xml:"clearCnt"`
+	CareCnt        int64  `xml:"careCnt"`
+	ClearCnt       int64  `xml:"clearCnt"`
 	CreateDt       string `xml:"createDt"`
-	DeathCnt       string `xml:"deathCnt"`
-	DecideCnt      string `xml:"decideCnt"`
-	ExamCnt        string `xml:"examCnt"`
-	ResutlNegCnt   string `xml:"resutlNegCnt"`
-	Seq            string `xml:"seq"`
-	StateDt        string `xml:"stateDt"`
-	StateTime      string `xml:"stateTime"`
-	UpdateDt       string `xml:"updateDt"`
+	DeathCnt       int64  `xml:"deathCnt"`
+	DecideCnt      int64  `xml:"decideCnt"`
+	ExamCnt        int64  `xml:"examCnt"`
+	// 오타 실화입니까 보건복지부 ㅜㅜ..
+	ResutlNegCnt int64  `xml:"resutlNegCnt"`
+	Seq          int64  `xml:"seq"`
+	StateDt      string `xml:"stateDt"`
+	StateTime    string `xml:"stateTime"`
+	UpdateDt     string `xml:"updateDt"`
 }
 
 // CoronaDailyData is a single data point.
 type CoronaDailyData struct {
 	Date     string `xml:"date"`
-	AddCount string `xml:"addCount"`
+	AddCount int64  `xml:"addCount"`
 }
 
 type CoronaDailyDataResult struct {

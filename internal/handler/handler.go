@@ -4,11 +4,9 @@ import (
 	"corona-visual-server/internal/config"
 	"corona-visual-server/internal/fetcher"
 	"corona-visual-server/internal/model"
-	"encoding/xml"
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -33,46 +31,20 @@ func New(config *config.Config, fetcher *fetcher.Fetcher) Handler {
 }
 
 // GetWeeklyHandler handles weekly request.
-// TODO: This function needs refactoring.
-func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, _ *http.Request) {
-	fmt.Println("weeklyHandler")
-	b, err := h.fetcher.GetCoronaData()
+func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("GetWeeklyHandler request = %+v", r)
+	if r.Method != http.MethodGet || r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
+	coronaDataSet, err := h.fetcher.GetCoronaData()
 	if err != nil {
-		log.Println(err)
+		log.Printf("h.fetcher.GetCoronaData() returns an err = %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	// fmt.Println(string(b))
-	var resp model.Response
-	if err := xml.Unmarshal(b, &resp); err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	var data []model.CoronaDailyData
-	for i := range resp.Body.Items.Item {
-		if i == len(resp.Body.Items.Item)-1 {
-			continue
-		}
-		t, err := time.Parse(h.config.DateFormat, resp.Body.Items.Item[i].StateDt)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-
-		var d model.CoronaDailyData
-		d.Date = t.AddDate(0, 0, -1).Format(h.config.DateFormat)
-		d.AddCount = getAddCount(resp.Body.Items.Item[i], resp.Body.Items.Item[i+1])
-		data = append(data, d)
-	}
-
-	// reverse and get exact 21 data
-	for i, j := 0, len(data)-1; i < j; i, j = i+1, j-1 {
-		data[i], data[j] = data[j], data[i]
-	}
-	cutCount := len(data) - 21 // 3 weeks == 21 days
-	data = data[cutCount:]
+	data := coronaDataSet.Data
 
 	// create a new bar instance
 	bar := charts.NewBar()
@@ -104,36 +76,6 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, _ *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-}
-
-func getAddCount(today model.Item, yday model.Item) string {
-
-	tCareCnt, err := strconv.Atoi(today.CareCnt)
-	if err != nil {
-		return "-1"
-	}
-	yCareCnt, err := strconv.Atoi(yday.CareCnt)
-	if err != nil {
-		return "-1"
-	}
-	tClearCnt, err := strconv.Atoi(today.ClearCnt)
-	if err != nil {
-		return "-1"
-	}
-	yClearCnt, err := strconv.Atoi(yday.ClearCnt)
-	if err != nil {
-		return "-1"
-	}
-	tDeathCnt, err := strconv.Atoi(today.DeathCnt)
-	if err != nil {
-		return "-1"
-	}
-	yDeathCnt, err := strconv.Atoi(yday.DeathCnt)
-	if err != nil {
-		return "-1"
-	}
-
-	return strconv.Itoa(tCareCnt + tClearCnt + tDeathCnt - yCareCnt - yClearCnt - yDeathCnt)
 }
 
 // getWeeklyAxis finds the starting weekday of the xAxis
