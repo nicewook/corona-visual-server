@@ -23,24 +23,21 @@ func TestProcessResponse(t *testing.T) {
 	}
 }
 
-func getExpectedOutput() *model.CoronaDailyDataResult {
-	filepath := "../testdata/expected_processed_output.xml"
-	bytes := mustReadFile(filepath)
-	response := &model.CoronaDailyDataResult{}
-	if err := xml.Unmarshal(bytes, response); err != nil {
-		log.Fatalf("failed to unmarshal to model.CoronaDailyDataResult. Please make sure the file is a correct XML. err = %v", err)
-	}
-	return response
+func getSampleResponse() *model.Response {
+	return mustConvertFileToResponse(
+		"../testdata/sample_response.xml",
+		&model.Response{}).(*model.Response)
 }
 
-func getSampleResponse() *model.Response {
-	filepath := "../testdata/sample_response.xml"
+func getExpectedOutput() *model.CoronaDailyDataResult {
+	return mustConvertFileToResponse(
+		"../testdata/expected_processed_output.xml",
+		&model.CoronaDailyDataResult{}).(*model.CoronaDailyDataResult)
+}
+
+func mustConvertFileToResponse(filepath string, response interface{}) interface{} {
 	bytes := mustReadFile(filepath)
-	response := &model.Response{}
-	if err := xml.Unmarshal(bytes, response); err != nil {
-		log.Fatalf("failed to unmarshal to model.Response. Please make sure the file is a correct XML. err = %v", err)
-	}
-	return response
+	return mustConvert(bytes, response)
 }
 
 func mustReadFile(filepath string) []byte {
@@ -49,4 +46,11 @@ func mustReadFile(filepath string) []byte {
 		log.Fatalf("failed to read %v. maybe the file does not exist? err = %v", filepath, err)
 	}
 	return bytes
+}
+
+func mustConvert(b []byte, obj interface{}) interface{} {
+	if err := xml.Unmarshal(b, obj); err != nil {
+		log.Fatalf("failed to unmarshal. Please make sure the file is a correct XML. err = %v", err)
+	}
+	return obj
 }
