@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+    <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+    </header>
+    <body>
+        <items>
+            <item>
+                <accDefRate>1.3637663657</accDefRate>
+                <accExamCnt>7046782</accExamCnt>
+                <accExamCompCnt>6978908</accExamCompCnt>
+                <careCnt>6884</careCnt>
+                <clearCnt>86625</clearCnt>
+                <createDt>2021-03-13 09:36:41.886</createDt>
+                <deathCnt>1667</deathCnt>
+                <decideCnt>95176</decideCnt>
+                <examCnt>67874</examCnt>
+                <resutlNegCnt>6883732</resutlNegCnt>
+                <seq>447</seq>
+                <stateDt>20210313</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3635801994</accDefRate>
+                <accExamCnt>7012664</accExamCnt>
+                <accExamCompCnt>6943926</accExamCompCnt>
+                <careCnt>7281</careCnt>
+                <clearCnt>85743</clearCnt>
+                <createDt>2021-03-12 09:49:58.077</createDt>
+                <deathCnt>1662</deathCnt>
+                <decideCnt>94686</decideCnt>
+                <examCnt>68738</examCnt>
+                <resutlNegCnt>6849240</resutlNegCnt>
+                <seq>446</seq>
+                <stateDt>20210312</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3634619468</accDefRate>
+                <accExamCnt>6976985</accExamCnt>
+                <accExamCompCnt>6908737</accExamCompCnt>
+                <careCnt>7871</careCnt>
+                <clearCnt>84675</clearCnt>
+                <createDt>2021-03-11 09:39:02.159</createDt>
+                <deathCnt>1652</deathCnt>
+                <decideCnt>94198</decideCnt>
+                <examCnt>68248</examCnt>
+                <resutlNegCnt>6814539</resutlNegCnt>
+                <seq>445</seq>
+                <stateDt>20210311</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3646582727</accDefRate>
+                <accExamCnt>6938884</accExamCnt>
+                <accExamCompCnt>6868606</accExamCompCnt>
+                <careCnt>7773</careCnt>
+                <clearCnt>84312</clearCnt>
+                <createDt>2021-03-10 09:45:29.181</createDt>
+                <deathCnt>1648</deathCnt>
+                <decideCnt>93733</decideCnt>
+                <examCnt>70278</examCnt>
+                <resutlNegCnt>6774873</resutlNegCnt>
+                <seq>444</seq>
+                <stateDt>20210310</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3649942487</accDefRate>
+                <accExamCnt>6902984</accExamCnt>
+                <accExamCompCnt>6832483</accExamCompCnt>
+                <careCnt>7718</careCnt>
+                <clearCnt>83900</clearCnt>
+                <createDt>2021-03-09 09:52:46.909</createDt>
+                <deathCnt>1645</deathCnt>
+                <decideCnt>93263</decideCnt>
+                <examCnt>70501</examCnt>
+                <resutlNegCnt>6739220</resutlNegCnt>
+                <seq>443</seq>
+                <stateDt>20210309</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3660778742</accDefRate>
+                <accExamCnt>6861809</accExamCnt>
+                <accExamCompCnt>6794415</accExamCompCnt>
+                <careCnt>7701</careCnt>
+                <clearCnt>83474</clearCnt>
+                <createDt>2021-03-08 09:31:46.646</createDt>
+                <deathCnt>1642</deathCnt>
+                <decideCnt>92817</decideCnt>
+                <examCnt>67394</examCnt>
+                <resutlNegCnt>6701598</resutlNegCnt>
+                <seq>442</seq>
+                <stateDt>20210308</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3645371735</accDefRate>
+                <accExamCnt>6843126</accExamCnt>
+                <accExamCompCnt>6776730</accExamCompCnt>
+                <careCnt>7617</careCnt>
+                <clearCnt>83220</clearCnt>
+                <createDt>2021-03-07 09:52:34.246</createDt>
+                <deathCnt>1634</deathCnt>
+                <decideCnt>92471</decideCnt>
+                <examCnt>66396</examCnt>
+                <resutlNegCnt>6684259</resutlNegCnt>
+                <seq>441</seq>
+                <stateDt>20210307</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3624109264</accDefRate>
+                <accExamCnt>6821943</accExamCnt>
+                <accExamCompCnt>6756772</accExamCompCnt>
+                <careCnt>7510</careCnt>
+                <clearCnt>82913</clearCnt>
+                <createDt>2021-03-06 09:40:17.621</createDt>
+                <deathCnt>1632</deathCnt>
+                <decideCnt>92055</decideCnt>
+                <examCnt>65171</examCnt>
+                <resutlNegCnt>6664717</resutlNegCnt>
+                <seq>440</seq>
+                <stateDt>20210306</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>null</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3625703760</accDefRate>
+                <accExamCnt>6789011</accExamCnt>
+                <accExamCompCnt>6725304</accExamCompCnt>
+                <careCnt>7450</careCnt>
+                <clearCnt>82560</clearCnt>
+                <createDt>2021-03-05 09:41:54.92</createDt>
+                <deathCnt>1627</deathCnt>
+                <decideCnt>91637</decideCnt>
+                <examCnt>63707</examCnt>
+                <resutlNegCnt>6633667</resutlNegCnt>
+                <seq>439</seq>
+                <stateDt>20210305</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:39:45.406</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3634425718</accDefRate>
+                <accExamCnt>6751900</accExamCnt>
+                <accExamCompCnt>6691811</accExamCompCnt>
+                <careCnt>7458</careCnt>
+                <clearCnt>82162</clearCnt>
+                <createDt>2021-03-04 09:33:23.999</createDt>
+                <deathCnt>1619</deathCnt>
+                <decideCnt>91239</decideCnt>
+                <examCnt>60089</examCnt>
+                <resutlNegCnt>6600572</resutlNegCnt>
+                <seq>438</seq>
+                <stateDt>20210304</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:39:29.419</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3655701005</accDefRate>
+                <accExamCnt>6716203</accExamCnt>
+                <accExamCompCnt>6650336</accExamCompCnt>
+                <careCnt>7503</careCnt>
+                <clearCnt>81700</clearCnt>
+                <createDt>2021-03-03 09:33:02.813</createDt>
+                <deathCnt>1612</deathCnt>
+                <decideCnt>90815</decideCnt>
+                <examCnt>65867</examCnt>
+                <resutlNegCnt>6559521</resutlNegCnt>
+                <seq>437</seq>
+                <stateDt>20210303</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:39:17.199</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3674873012</accDefRate>
+                <accExamCnt>6681976</accExamCnt>
+                <accExamCompCnt>6608544</accExamCompCnt>
+                <careCnt>7427</careCnt>
+                <clearCnt>81338</clearCnt>
+                <createDt>2021-03-02 09:32:41.95</createDt>
+                <deathCnt>1606</deathCnt>
+                <decideCnt>90371</decideCnt>
+                <examCnt>73432</examCnt>
+                <resutlNegCnt>6518173</resutlNegCnt>
+                <seq>436</seq>
+                <stateDt>20210302</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:39:05.203</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3656989849</accDefRate>
+                <accExamCnt>6665754</accExamCnt>
+                <accExamCompCnt>6592009</accExamCompCnt>
+                <careCnt>7352</careCnt>
+                <clearCnt>81070</clearCnt>
+                <createDt>2021-03-01 09:48:21.402</createDt>
+                <deathCnt>1605</deathCnt>
+                <decideCnt>90027</decideCnt>
+                <examCnt>73745</examCnt>
+                <resutlNegCnt>6501982</resutlNegCnt>
+                <seq>435</seq>
+                <stateDt>20210301</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:38:53.057</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3636016650</accDefRate>
+                <accExamCnt>6649003</accExamCnt>
+                <accExamCompCnt>6576114</accExamCompCnt>
+                <careCnt>7372</careCnt>
+                <clearCnt>80697</clearCnt>
+                <createDt>2021-02-28 10:24:54.713</createDt>
+                <deathCnt>1603</deathCnt>
+                <decideCnt>89672</decideCnt>
+                <examCnt>72889</examCnt>
+                <resutlNegCnt>6486442</resutlNegCnt>
+                <seq>434</seq>
+                <stateDt>20210228</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:38:29.72</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3619081382</accDefRate>
+                <accExamCnt>6627214</accExamCnt>
+                <accExamCompCnt>6558225</accExamCompCnt>
+                <careCnt>7389</careCnt>
+                <clearCnt>80333</clearCnt>
+                <createDt>2021-02-27 09:37:27.179</createDt>
+                <deathCnt>1595</deathCnt>
+                <decideCnt>89317</decideCnt>
+                <examCnt>68989</examCnt>
+                <resutlNegCnt>6468908</resutlNegCnt>
+                <seq>433</seq>
+                <stateDt>20210227</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:38:16.735</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3632961397</accDefRate>
+                <accExamCnt>6590049</accExamCnt>
+                <accExamCompCnt>6521107</accExamCompCnt>
+                <careCnt>7437</careCnt>
+                <clearCnt>79880</clearCnt>
+                <createDt>2021-02-26 09:32:51.735</createDt>
+                <deathCnt>1585</deathCnt>
+                <decideCnt>88902</decideCnt>
+                <examCnt>68942</examCnt>
+                <resutlNegCnt>6432205</resutlNegCnt>
+                <seq>431</seq>
+                <stateDt>20210226</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-03-06 09:38:03.903</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3654367939</accDefRate>
+                <accExamCnt>6551213</accExamCnt>
+                <accExamCompCnt>6482541</accExamCompCnt>
+                <careCnt>7447</careCnt>
+                <clearCnt>79487</clearCnt>
+                <createDt>2021-02-25 9:31:53.53</createDt>
+                <deathCnt>1581</deathCnt>
+                <decideCnt>88515</decideCnt>
+                <examCnt>68672</examCnt>
+                <resutlNegCnt>6394026</resutlNegCnt>
+                <seq>430</seq>
+                <stateDt>20210225</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-25 9:31:53.53</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3691733996</accDefRate>
+                <accExamCnt>6510988</accExamCnt>
+                <accExamCompCnt>6436000</accExamCompCnt>
+                <careCnt>7494</careCnt>
+                <clearCnt>79050</clearCnt>
+                <createDt>2021-02-24 9:33:42.42</createDt>
+                <deathCnt>1576</deathCnt>
+                <decideCnt>88120</decideCnt>
+                <examCnt>74988</examCnt>
+                <resutlNegCnt>6347880</resutlNegCnt>
+                <seq>429</seq>
+                <stateDt>20210224</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-24 9:33:42.42</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3702969690</accDefRate>
+                <accExamCnt>6472678</accExamCnt>
+                <accExamCompCnt>6398613</accExamCompCnt>
+                <careCnt>7713</careCnt>
+                <clearCnt>78394</clearCnt>
+                <createDt>2021-02-23 9:31:46.46</createDt>
+                <deathCnt>1573</deathCnt>
+                <decideCnt>87680</decideCnt>
+                <examCnt>74065</examCnt>
+                <resutlNegCnt>6310933</resutlNegCnt>
+                <seq>428</seq>
+                <stateDt>20210223</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-23 9:31:46.46</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3737353270</accDefRate>
+                <accExamCnt>6429144</accExamCnt>
+                <accExamCompCnt>6356683</accExamCompCnt>
+                <careCnt>7875</careCnt>
+                <clearCnt>77887</clearCnt>
+                <createDt>2021-02-22 9:30:56.56</createDt>
+                <deathCnt>1562</deathCnt>
+                <decideCnt>87324</decideCnt>
+                <examCnt>72461</examCnt>
+                <resutlNegCnt>6269359</resutlNegCnt>
+                <seq>427</seq>
+                <stateDt>20210222</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-22 9:30:56.56</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3725500095</accDefRate>
+                <accExamCnt>6411340</accExamCnt>
+                <accExamCompCnt>6337984</accExamCompCnt>
+                <careCnt>7919</careCnt>
+                <clearCnt>77516</clearCnt>
+                <createDt>2021-02-21 9:34:28.28</createDt>
+                <deathCnt>1557</deathCnt>
+                <decideCnt>86992</decideCnt>
+                <examCnt>73356</examCnt>
+                <resutlNegCnt>6250992</resutlNegCnt>
+                <seq>426</seq>
+                <stateDt>20210221</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-21 9:34:28.28</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3710678955</accDefRate>
+                <accExamCnt>6390631</accExamCnt>
+                <accExamCompCnt>6314494</accExamCompCnt>
+                <careCnt>7940</careCnt>
+                <clearCnt>77083</clearCnt>
+                <createDt>2021-02-20 9:40:37.37</createDt>
+                <deathCnt>1553</deathCnt>
+                <decideCnt>86576</decideCnt>
+                <examCnt>76137</examCnt>
+                <resutlNegCnt>6227918</resutlNegCnt>
+                <seq>425</seq>
+                <stateDt>20210220</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-20 9:40:37.37</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3725848925</accDefRate>
+                <accExamCnt>6345992</accExamCnt>
+                <accExamCompCnt>6274876</accExamCompCnt>
+                <careCnt>8065</careCnt>
+                <clearCnt>76513</clearCnt>
+                <createDt>2021-02-19 9:33:31.31</createDt>
+                <deathCnt>1550</deathCnt>
+                <decideCnt>86128</decideCnt>
+                <examCnt>71116</examCnt>
+                <resutlNegCnt>6188748</resutlNegCnt>
+                <seq>423</seq>
+                <stateDt>20210219</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-19 9:33:31.31</updateDt>
+            </item>
+            <item>
+                <accDefRate>1.3729174869</accDefRate>
+                <accExamCnt>6303214</accExamCnt>
+                <accExamCompCnt>6232494</accExamCompCnt>
+                <careCnt>8127</careCnt>
+                <clearCnt>75896</clearCnt>
+                <createDt>2021-02-18 9:31:34.34</createDt>
+                <deathCnt>1544</deathCnt>
+                <decideCnt>85567</decideCnt>
+                <examCnt>70720</examCnt>
+                <resutlNegCnt>6146927</resutlNegCnt>
+                <seq>422</seq>
+                <stateDt>20210218</stateDt>
+                <stateTime>00:00</stateTime>
+                <updateDt>2021-02-18 9:31:34.34</updateDt>
+            </item>
+        </items>
+        <numOfRows>25</numOfRows>
+        <pageNo>1</pageNo>
+        <totalCount>24</totalCount>
+    </body>
+</response>
