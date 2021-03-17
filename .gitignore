@@ -1,4 +1,5 @@
 /service.key
 /.vscode
+/vendor
 .idea
 /corona-visual-server
