@@ -12,7 +12,7 @@ import (
 func TestProcessResponse(t *testing.T) {
 	sampleResponse := getSampleResponse()
 
-	response, err := ProcessResponse(sampleResponse, "20060102")
+	response, err := ProcessResponse(sampleResponse)
 	if err != nil {
 		t.Errorf("ProcessResponse should not have failed but failed. err = %v", err)
 	}
