@@ -27,8 +27,8 @@ func New(config *config.Config, client *http.Client) Fetcher {
 
 func (f *Fetcher) get3WeeksRange() (string, string) {
 	cTime := time.Now()
-	endDate := cTime.Format(f.config.DateFormat)
-	startDate := cTime.AddDate(0, 0, -23).Format(f.config.DateFormat) // I need 21 days, but I have 23 days just in case
+	endDate := cTime.Format(model.APIDateFormat)
+	startDate := cTime.AddDate(0, 0, -23).Format(model.APIDateFormat) // I need 21 days, but I have 23 days just in case
 	log.Printf("startDate=%v, endDate=%v", startDate, endDate)
 	return startDate, endDate
 }
@@ -41,7 +41,7 @@ func (f *Fetcher) GetCoronaData() (*model.CoronaDailyDataResult, error) {
 		return nil, err
 	}
 
-	return ProcessResponse(modelResponse, f.config.DateFormat)
+	return ProcessResponse(modelResponse)
 }
 
 // ResultCoronaAPI는 보건복지부 API로 요청을 보내 지난 25일간 코로나 일일 현황을 받아옵니다.
@@ -85,22 +85,17 @@ func RequestCoronaAPI(f *Fetcher) (*model.Response, error) {
 }
 
 // ProcessResponse 는 코로나API에서 받은 XML 데이터를 프로세스해 차트를 위한 데이터로 변환합니다.
-func ProcessResponse(modelResponse *model.Response, dateFormat string) (*model.CoronaDailyDataResult, error) {
+func ProcessResponse(modelResponse *model.Response) (*model.CoronaDailyDataResult, error) {
 	var data []model.CoronaDailyData
 	for i, todayCoronaData := range modelResponse.Body.Items.Item {
 		if i == len(modelResponse.Body.Items.Item)-1 {
-			continue
-		}
-		t, err := time.ParseInLocation(dateFormat, todayCoronaData.StateDt, config.SeoulTZ)
-		if err != nil {
-			log.Println(err)
 			continue
 		}
 
 		var d model.CoronaDailyData
 
 		// TODO: Explain why this needs to be subtracted.
-		d.Date = t.AddDate(0, 0, -1).Format(dateFormat)
+		d.Date = model.YYYYMMDDSeoulTime{Time: todayCoronaData.StateDt.Time.AddDate(0, 0, -1)}
 		d.AddCount = getAddCount(todayCoronaData, modelResponse.Body.Items.Item[i+1])
 		data = append(data, d)
 	}

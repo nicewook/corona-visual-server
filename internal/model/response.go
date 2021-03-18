@@ -1,6 +1,8 @@
 package model
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // Response represents the result of research.swtch.com
 type Response struct {
@@ -36,19 +38,9 @@ type Item struct {
 	DecideCnt      int64  `xml:"decideCnt"`
 	ExamCnt        int64  `xml:"examCnt"`
 	// 오타 실화입니까 보건복지부 ㅜㅜ..
-	ResutlNegCnt int64  `xml:"resutlNegCnt"`
-	Seq          int64  `xml:"seq"`
-	StateDt      string `xml:"stateDt"`
-	StateTime    string `xml:"stateTime"`
-	UpdateDt     string `xml:"updateDt"`
-}
-
-// CoronaDailyData is a single data point.
-type CoronaDailyData struct {
-	Date     string `xml:"date"`
-	AddCount int64  `xml:"addCount"`
-}
-
-type CoronaDailyDataResult struct {
-	Data []CoronaDailyData `xml:"data"`
+	ResutlNegCnt int64             `xml:"resutlNegCnt"`
+	Seq          int64             `xml:"seq"`
+	StateDt      YYYYMMDDSeoulTime `xml:"stateDt"`
+	StateTime    string            `xml:"stateTime"`
+	UpdateDt     string            `xml:"updateDt"`
 }
