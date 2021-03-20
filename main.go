@@ -5,9 +5,23 @@ import (
 	"corona-visual-server/internal/fetcher"
 	"corona-visual-server/internal/handler"
 	"log"
+	"net"
 	"net/http"
 	"os"
+	"time"
 )
+
+const (
+	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
+)
+
+var netClient = &http.Client{
+	Timeout: time.Second * 20,
+	Transport: &http.Transport{
+		DialContext:         (&net.Dialer{Timeout: 15 * time.Second}).DialContext,
+		TLSHandshakeTimeout: 15 * time.Second,
+	},
+}
 
 func main() {
 	serviceKey := os.Getenv("SERVICE_KEY")
@@ -23,14 +37,12 @@ func main() {
 
 	cfg := config.Config{
 		OpenAPIURL: openAPIURL,
-		DateFormat: dateFormat,
 		ServiceKey: serviceKey,
-		Port:       port,
 	}
 
 	f := fetcher.New(&cfg, netClient)
 	h := handler.New(&cfg, &f)
 
 	http.HandleFunc("/", h.GetWeeklyHandler)
-	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

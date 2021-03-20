@@ -5,13 +5,11 @@ import (
 	"corona-visual-server/internal/fetcher"
 	"corona-visual-server/internal/model"
 	"fmt"
+	"github.com/go-echarts/go-echarts/v2/charts"
+	"github.com/go-echarts/go-echarts/v2/opts"
 	"log"
 	"net/http"
 	"strings"
-	"time"
-
-	"github.com/go-echarts/go-echarts/v2/charts"
-	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
 var weekdays = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
@@ -80,12 +78,7 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 
 // getWeeklyAxis finds the starting weekday of the xAxis
 func (h *Handler) getWeeklyAxis(data model.CoronaDailyData) []string {
-	t, err := time.Parse(h.config.DateFormat, data.Date)
-	if err != nil {
-		log.Println(err)
-		return weekdays
-	}
-	wDay := t.Weekday().String()
+	wDay := data.Date.Weekday().String()
 	fmt.Println("weekday start: ", wDay)
 
 	var idx int
