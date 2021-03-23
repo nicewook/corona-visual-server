@@ -13,6 +13,7 @@ import (
 
 const (
 	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
+	totalWeeks = 5
 )
 
 var netClient = &http.Client{
@@ -38,6 +39,7 @@ func main() {
 	cfg := config.Config{
 		OpenAPIURL: openAPIURL,
 		ServiceKey: serviceKey,
+		TotalWeeks: totalWeeks,
 	}
 
 	f := fetcher.New(&cfg, netClient)
