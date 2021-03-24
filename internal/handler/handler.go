@@ -5,11 +5,12 @@ import (
 	"corona-visual-server/internal/fetcher"
 	"corona-visual-server/internal/model"
 	"fmt"
-	"github.com/go-echarts/go-echarts/v2/charts"
-	"github.com/go-echarts/go-echarts/v2/opts"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/go-echarts/go-echarts/v2/charts"
+	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
 var weekdays = []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
@@ -50,7 +51,7 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title:    "Covid confirmed person data comparison",
-			Subtitle: "3 Weeks comparison of each weekday",
+			Subtitle: fmt.Sprintf("%d Weeks comparison of each weekday", h.config.TotalWeeks),
 			Left:     "5%",
 		}),
 		charts.WithLegendOpts(opts.Legend{
@@ -61,17 +62,21 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 	)
 
 	// Put data into the bar instance
+
+	for i := 0; i < h.config.TotalWeeks; i++ {
+		label := fmt.Sprintf("%d weeks ago", 5-i)
+		start := i * 7
+		end := start + 7
+		bar.AddSeries(label, generateWeeklyBarItems(data[start:end]))
+	}
 	bar.SetXAxis(h.getWeeklyAxis(data[0])).
-		AddSeries("3rd weeks ago", generateWeeklyBarItems(data[:7])).
-		AddSeries("2nd weeks ago", generateWeeklyBarItems(data[7:14])).
-		AddSeries("1st weeks ago", generateWeeklyBarItems(data[14:])).
 		SetSeriesOptions(charts.WithLabelOpts(opts.Label{
 			Show:     true,
 			Position: "top",
 		}),
 		)
-	err = bar.Render(w)
-	if err != nil {
+
+	if err := bar.Render(w); err != nil {
 		log.Println(err)
 	}
 }
