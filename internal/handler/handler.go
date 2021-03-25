@@ -55,15 +55,14 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 			Left:     "5%",
 		}),
 		charts.WithLegendOpts(opts.Legend{
-			Show:  true,
-			Right: "10",
-			Top:   "7%",
-			// Padding: 20,
+			Show: true,
+			Left: "48%",
+			Top:  "5%",
 		}),
 		charts.WithInitializationOpts(opts.Initialization{
 			PageTitle: "Weekly comparison of the Corona confirmed persion in South Korea", // HTML title
-			Width:     "1000px",                                                           // Width of canvas
-			Height:    "700px",                                                            // Height of canvas
+			Width:     "950px",                                                            // Width of canvas
+			Height:    "550px",                                                            // Height of canvas
 		}),
 	)
 

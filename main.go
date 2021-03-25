@@ -13,7 +13,7 @@ import (
 
 const (
 	openAPIURL = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"
-	totalWeeks = 3
+	totalWeeks = 5
 )
 
 var netClient = &http.Client{
