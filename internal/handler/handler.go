@@ -64,7 +64,7 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 	// Put data into the bar instance
 
 	for i := 0; i < h.config.TotalWeeks; i++ {
-		label := fmt.Sprintf("%d weeks ago", 5-i)
+		label := fmt.Sprintf("%d weeks ago", h.config.TotalWeeks-i)
 		start := i * 7
 		end := start + 7
 		bar.AddSeries(label, generateWeeklyBarItems(data[start:end]))
