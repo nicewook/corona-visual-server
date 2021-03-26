@@ -13,6 +13,15 @@ Make a bar chart which compares `COVID-19 confirmed case` of each weekday for se
 3. Practice using an `Open API` from the government
 4. Practice deploying to Heroku using GitHub Actions
 
+## How to run locally
+
+1. [data.go.kr](https://www.data.go.kr/data/15043376/openapi.do) 서비스 키를 발급 받으세요.
+1. 서비스키가 URL_ENCODED 되어서 나오기 때문에 [urldecoder.org](https://www.urldecoder.org) 에서 DECODE 해주세요.
+1.  그 다음 프로젝트 루트에서 실행하세요.
+    ```shell
+    SERVICE_KEY=<your_service_key> go run main.go
+    ```
+
 ## Blog posting(In Korean language)
 
 1. [공공데이터 오픈API를 신청해서 데이터 얻기](https://jusths.tistory.com/199)
