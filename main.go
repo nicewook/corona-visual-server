@@ -49,11 +49,11 @@ func main() {
 	h := handler.New(&cfg, &f)
 
 	r := gin.Default()
+
+	r.StaticFile("/favicon.ico", "./images/covid-19.ico")
+
 	r.GET("/", h.GetWeeklyHandler)
 	r.GET("/:weeks", h.GetWeeklyHandler)
-	r.GET("/favicon.ico", func(c *gin.Context) {
-		c.AbortWithStatus(http.StatusOK)
-	})
 
 	r.Run(":" + port)
 }
