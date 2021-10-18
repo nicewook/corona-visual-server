@@ -38,7 +38,9 @@ type URITotalWeeks struct {
 // GetWeeklyHandler handles weekly request.
 func (h *Handler) GetWeeklyHandler(c *gin.Context) {
 
-	// get totalWeeks
+	h.config.TotalWeeks = config.DefaultWeeks
+
+	// get totalWeeks from uri, if exist
 	var tw URITotalWeeks
 	if err := c.ShouldBindUri(&tw); err != nil {
 		log.Println("err: ", err)
@@ -102,8 +104,10 @@ func (h *Handler) GetWeeklyHandler(c *gin.Context) {
 
 // getWeeklyAxis finds the starting weekday of the xAxis
 func (h *Handler) getWeeklyAxis(data model.CoronaDailyData) []string {
+	dateFormat := "2006-01-02"
 	wDay := data.Date.Weekday().String()
-	fmt.Println("weekday start: ", wDay)
+	log.Printf("starting date: %v, starting date local: %v", data.Date.Format(dateFormat), data.Date.Local().Format(dateFormat))
+	log.Printf("weekday start: %v ", wDay)
 
 	var idx int
 	for i, d := range weekdays {

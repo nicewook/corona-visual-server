@@ -52,5 +52,5 @@ func main() {
 	r.GET("/", h.GetWeeklyHandler)
 	r.GET("/:weeks", h.GetWeeklyHandler)
 
-	r.Run()
+	r.Run(":" + port)
 }
