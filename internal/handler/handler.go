@@ -7,8 +7,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
 )
@@ -29,25 +31,37 @@ func New(config *config.Config, fetcher *fetcher.Fetcher) Handler {
 	}
 }
 
+type URITotalWeeks struct {
+	Weeks string `uri:"weeks"`
+}
+
 // GetWeeklyHandler handles weekly request.
-func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("GetWeeklyHandler request = %+v", r)
-	if r.Method != http.MethodGet || r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
+func (h *Handler) GetWeeklyHandler(c *gin.Context) {
+
+	// get totalWeeks
+	var tw URITotalWeeks
+	if err := c.ShouldBindUri(&tw); err != nil {
+		log.Println("err: ", err)
+		c.AbortWithStatus(http.StatusBadRequest)
+	} else if tw.Weeks != "" {
+		if weeks, err := strconv.Atoi(tw.Weeks); err != nil {
+			log.Println("err: ", err)
+			c.AbortWithStatus(http.StatusBadRequest)
+		} else {
+			log.Println("total weeks to display: ", weeks)
+			h.config.TotalWeeks = weeks
+		}
 	}
 
 	coronaDataSet, err := h.fetcher.GetCoronaData()
 	if err != nil {
 		log.Printf("h.fetcher.GetCoronaData() returns an err = %v", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		c.AbortWithStatus(http.StatusInternalServerError)
 	}
 	data := coronaDataSet.Data
 
-	// create a new bar instance
-	bar := charts.NewBar()
 	// set some global options like Title/Legend/ToolTip or anything else
+	bar := charts.NewBar()
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
 			Title:    "Covid confirmed person data comparison",
@@ -81,7 +95,7 @@ func (h *Handler) GetWeeklyHandler(w http.ResponseWriter, r *http.Request) {
 		}),
 		)
 
-	if err := bar.Render(w); err != nil {
+	if err := bar.Render(c.Writer); err != nil {
 		log.Println(err)
 	}
 }

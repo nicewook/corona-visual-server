@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 const (
@@ -25,7 +27,8 @@ var netClient = &http.Client{
 }
 
 func main() {
-	serviceKey := os.Getenv("SERVICE_KEY")
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	serviceKey := os.Getenv("COVID19_INFECT_SERVICE_KEY")
 	if serviceKey == "" {
 		log.Fatal("$SERVICE_KEY is not set")
 	}
@@ -39,12 +42,15 @@ func main() {
 	cfg := config.Config{
 		OpenAPIURL: openAPIURL,
 		ServiceKey: serviceKey,
-		TotalWeeks: totalWeeks,
+		TotalWeeks: config.DefaultWeeks,
 	}
 
 	f := fetcher.New(&cfg, netClient)
 	h := handler.New(&cfg, &f)
 
-	http.HandleFunc("/", h.GetWeeklyHandler)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	r := gin.Default()
+	r.GET("/", h.GetWeeklyHandler)
+	r.GET("/:weeks", h.GetWeeklyHandler)
+
+	r.Run()
 }

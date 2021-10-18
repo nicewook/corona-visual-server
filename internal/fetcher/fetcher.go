@@ -37,7 +37,7 @@ func (f *Fetcher) getWeeksRange() (string, string) {
 // GetCoronaData returns CoronaData
 func (f *Fetcher) GetCoronaData() (*model.CoronaDailyDataResult, error) {
 	// make request with query https://stackoverflow.com/a/30657518/6513756
-	modelResponse, err := RequestCoronaAPI(f)
+	modelResponse, err := RequestCoronaAPI(f, f.config.TotalWeeks)
 	if err != nil {
 		return nil, err
 	}
@@ -46,14 +46,14 @@ func (f *Fetcher) GetCoronaData() (*model.CoronaDailyDataResult, error) {
 }
 
 // ResultCoronaAPI는 보건복지부 API로 요청을 보내 지난 25일간 코로나 일일 현황을 받아옵니다.
-func RequestCoronaAPI(f *Fetcher) (*model.Response, error) {
+func RequestCoronaAPI(f *Fetcher, weeks int) (*model.Response, error) {
 	req, err := http.NewRequest("GET", f.config.OpenAPIURL, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	startDate, endDate := f.getWeeksRange()
-	numOfRows := f.config.TotalWeeks*7 + 2
+	numOfRows := weeks*7 + 2
 	q := req.URL.Query()
 	q.Add("serviceKey", f.config.ServiceKey)
 	q.Add("pageNo", "1")
